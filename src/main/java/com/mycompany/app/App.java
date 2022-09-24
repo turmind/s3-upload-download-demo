@@ -37,7 +37,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        String bucketName = "jdhuang-test";
+        String bucketName = "turmind-test";
         String keyName = "s3-demo.txt";
         ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
         Region region = Region.AP_NORTHEAST_1;
@@ -94,7 +94,7 @@ public class App {
             String signedUrlCanned = "";
             String distributionDomain = "awscdn.zonepp.com";
             String keyPairId = "K2RTGRJT7GAP1F";
-            String privateKeyFilePath = "//Users/jdhuang/git/aws/cloudfrontkey/private_key.der";
+            String privateKeyFilePath = "//Users/turmind/git/aws/cloudfrontkey/private_key.der";
             String s3ObjectKey = "s3-demo.txt";
             String policyResourcePath = "https://" + distributionDomain + "/" + s3ObjectKey;
             byte[] derPrivateKey = null;

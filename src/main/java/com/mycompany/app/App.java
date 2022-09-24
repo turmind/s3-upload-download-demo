@@ -8,6 +8,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.io.FileInputStream;
 
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
@@ -16,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
+
 
 import org.jets3t.service.CloudFrontService;
 import org.jets3t.service.utils.ServiceUtils;
@@ -37,12 +39,14 @@ public class App {
 
         String bucketName = "jdhuang-test";
         String keyName = "s3-demo.txt";
-        // ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
+        ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
         Region region = Region.AP_NORTHEAST_1;
 
         S3Presigner presigner = S3Presigner.builder()
                 .region(region)
-                .serviceConfiguration(S3Configuration.builder().accelerateModeEnabled(true).build())
+                .serviceConfiguration(S3Configuration.builder()
+                .accelerateModeEnabled(true).build())
+                .credentialsProvider(credentialsProvider)
                 .build();
 
         signBucket(presigner, bucketName, keyName);
@@ -59,8 +63,6 @@ public class App {
                     //.contentLength(new Long(61))
                     //.contentType("text/plain")
                     .build();
-
-            
 
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
                     .signatureDuration(Duration.ofMinutes(10))
@@ -90,9 +92,9 @@ public class App {
 
             //presign url
             String signedUrlCanned = "";
-            String distributionDomain = "d285rqguoi73yy.cloudfront.net";
+            String distributionDomain = "awscdn.zonepp.com";
             String keyPairId = "K2RTGRJT7GAP1F";
-            String privateKeyFilePath = "//pathtofile/cloudfrontkey/private_key.der";
+            String privateKeyFilePath = "//Users/jdhuang/git/aws/cloudfrontkey/private_key.der";
             String s3ObjectKey = "s3-demo.txt";
             String policyResourcePath = "https://" + distributionDomain + "/" + s3ObjectKey;
             byte[] derPrivateKey = null;
